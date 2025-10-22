@@ -840,13 +840,119 @@ Ad esempio:
 
     / Altrimenti 
     } else {
+    / restiuisco solo i singoli valori della chiave 'exams'
       return exam;
     }
   }),
 }));
 
+
+Codice cosi complesso come questo può causare bug.
+È preferibile creare più variabili di stato 
+in base ai valori che tendono a cambiare insieme.
+
+
+Quindi possiamo riscrivere l'esempio precedente come segue: 
+function Subject() {
+    const [currentGrade, setGrade] = useState('B');
+    const [classmates, setClassmates] = useState(['Hasan', 'Sam', 'Emma']);
+    const [classDetails, setClassDetails] = useState({topic: 'Math', teacher: 'Ms. Barry', room: 201});
+    const [exams, setExams] = useState([{unit: 1, score: 91}, {unit: 2, score: 88}]);
+}
+Maneggiare dati in modo dinamico con variabili di stato separate a numerosi vantaggi: 
+1. rende il codice più leggibile 
+2. più facile da scrivere
+3. facilita il testing e il debbuging 
+4. maggiore riusibilità del codice tra i diversi componenti 
+
+Spesso, ci troviamo a raggruppare e organizzare i dati in raccolte da trasferire tra i componenti, 
+quindi a separare tali dati all'interno dei componenti in cui le diverse parti dei dati cambiano separatamente.
+
+La cosa fantistica a proposito di lavorare con gli Hooks è che abbiamo la libertà di 
+organizzare in nostri dati in maniera tale che abbiano senso per noi 
+
+
 */
 
+
+
+const Musical = ()=>{
+    
+    const [state, setState] = useState({
+    title: "Best Musical Ever",
+    actors: ["George Wilson", "Tim Hughes", "Larry Clements"],
+    locations: {
+        Chicago: {
+        dates: ["1/1", "2/2"], 
+        address: "chicago theater"}, 
+        SanFrancisco: {
+        dates: ["5/2"], 
+        address: "sf theater"
+        }
+    }
+  })
+}
+
+
+const MusicalRefactored = () =>{
+    const [title, setTitle] = useState ("Best Musical Ever")
+    const [actors, setActors] = useState(["George Wilson", "Tim Hughes", "Larry Clements"])
+    const [locations, setLocations] = useState({
+        Chicago: {
+            dates: ["1/1", "2/2"], 
+            address: "chicago theater"
+        }, 
+        SanFrancisco: {
+            dates: ["5/2"], 
+            address: "sf theater"
+        }
+    })
+}
+
+
+
+
+/* 
+=======
+
+Review
+======
+Ora possiamo creare componenti funzionali con stato utilizzando il React Hook useState!
+
+Rivediamo ciò che abbiamo imparato e messo in pratica in questa lezione:
+
+    - Con React, alimentiamo modelli di dati statici e dinamici a JSX per rendere una vista sullo schermo.
+    - Gli hook sono funzioni che conferiscono alle componenti funzionali capacità simili a quelle delle classi, come lo stato.
+
+    - Sono utilizzati per "agganciarsi" allo stato interno della componente per gestire i dati dinamici nelle componenti funzionali.
+    - Utilizziamo lo State Hook utilizzando il codice riportato di seguito. 
+    - Il currentState fa riferimento al valore corrente dello stato e l'initialState inizializza il valore dello stato per il primo rendering della componente.
+
+    const [currentState, stateSetter] = useState( initialState );
+
+
+    - Lo state setter può essere chiamato in un event handler 
+
+    - Possiamo definire un semplice event handler inline nel nostro JSX,
+        e un event handler complesso al di fuori del nostro JSX.
+    
+    - Possiamo usare uno state setter callback function quando il nostro prossimo valore 
+        dipende dal nostro valore precedente 
+
+    - Usiamo array e oggetti per organizzare e maneggiare dati correlati che tendono a cambiare insieme.
+
+    - Usiamo la sinstassi dello spread sulle collezzioni di dati dinamice per copiare lo stato precedente nel prossimo stato: 
+    setArrayState((prev) => [ ...prev ]) 
+    e: 
+    setObjectState((prev) => ({ ...prev })).
+
+    - È buona pratica avere molteplici e semplici stati invece di averne un unico oggetto di stato complesso.
+
+*/
+
+const AppFunction= ()=>{
+    
+}
 
 
 export {PhoneNumber, QuizNavBar, GroceryCart, EditProfile}
