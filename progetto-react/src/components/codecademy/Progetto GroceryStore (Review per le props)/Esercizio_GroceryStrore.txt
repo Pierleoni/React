@@ -1,0 +1,13 @@
+
+Per ulteriore esercitazione, considera la seguente sfida:
+
+Crea un semplice negozio di alimentari online utilizzando componenti 
+funzionali riutilizzabili di React.
+Il tuo negozio deve offrire agli utenti almeno quattro pulsanti, 
+ognuno corrispondente a un articolo acquistabile.
+Ogni volta che un utente clicca su un pulsante, 
+deve comparire un messaggio di avviso (alert) che indichi che 
+l’articolo selezionato è stato aggiunto al carrello.
+
+
+

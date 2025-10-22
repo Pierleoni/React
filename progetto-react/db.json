@@ -1,0 +1,29 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "text": "Studiare React",
+      "completed": false
+    },
+    {
+      "id": 2,
+      "text": "ciao",
+      "completed": false
+    },
+    {
+      "id": "3",
+      "text": "Studiare Bootstrap 5",
+      "completed": false
+    },
+    {
+      "id": 4,
+      "text": "D***P*****",
+      "completed": false
+    },
+    {
+      "id": 5,
+      "text": "boh",
+      "completed": false
+    }
+  ]
+}
