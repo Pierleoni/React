@@ -1,6 +1,6 @@
-import { questions } from "./Questions";
-import ItemList from "./ItemList";
-import { produce, pantryItems } from "./storeItem";
+import { questions } from "../Questions";
+import ItemList from "../ItemList";
+import { produce, pantryItems } from "../storeItem";
 
 /* 
 ==========================
@@ -950,9 +950,10 @@ Rivediamo ciò che abbiamo imparato e messo in pratica in questa lezione:
 
 */
 
-const AppFunction= ()=>{
-    
-}
+
+
+
+
 
 
 export {PhoneNumber, QuizNavBar, GroceryCart, EditProfile}

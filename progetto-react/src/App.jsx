@@ -20,13 +20,14 @@ import GroceryStore from './components/codecademy/Progetto GroceryStore (Review 
 import ProvaRouter from './router/ProvaRouter.jsx';
 
 import ReviewProps, { DefineEvent, DefaultProps} from './components/codecademy/ReviewProps.jsx';
-import ColorPicker, {EditProfile, GroceryCart, PhoneNumber, QuizNavBar} from './components/codecademy/spiegazioneHooks/Hook.jsx'
-import Checkbox from './components/Marco_Pierleoni_CheckBoxMultiple/Checkbox.jsx'
-import ToggleText from './components/Marco_PierleoniEsercizi_UseState/ToggleText.jsx'
-import MenuRistorante from './components/Esercizi Agosto/MenuRistorante.jsx'
-import Termostato from './components/Esercizi Agosto/Termostato.jsx'
-import CampoRicerca from './components/Esercizi Agosto/CampoRicerca.jsx'
-import MessaggioSegreto from './components/Esercizi Agosto/MessaggioSegreto.jsx'
+import ColorPicker, {EditProfile, GroceryCart, PhoneNumber, QuizNavBar} from './components/codecademy/spiegazioneHooks/Hook.jsx';
+import Checkbox from './components/Marco_Pierleoni_CheckBoxMultiple/Checkbox.jsx';
+import ToggleText from './components/Marco_PierleoniEsercizi_UseState/ToggleText.jsx';
+import MenuRistorante from './components/Esercizi Agosto/MenuRistorante.jsx';
+import Termostato from './components/Esercizi Agosto/Termostato.jsx';
+import CampoRicerca from './components/Esercizi Agosto/CampoRicerca.jsx';
+import MessaggioSegreto from './components/Esercizi Agosto/MessaggioSegreto.jsx';
+import AppFunction from './components/codecademy/Review degli hooks/AppFunction.jsx'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -97,6 +98,7 @@ function App() {
         <GroceryCart />
         <br />
         <EditProfile />
+        <AppFunction />
       </div>
       
     </>
