@@ -1,6 +1,12 @@
 
 import React, {useState, useEffect} from "react";
 
+
+
+
+
+
+
 /* 
 =========================
 Perché usare lo useEffect?
@@ -395,4 +401,202 @@ const Timer = () =>{
     )
 }
 
-export {Counter, Count, Timer}
+
+/* 
+==========================
+Fecth Data (Recupero Dati)
+==========================
+Quando si costruisce un software, spesso iniziamo con comportamenti predefiniti 
+e poi li modifichiamo per migliorare le prestazioni.
+Abbiamo imparato che il comportamento di defualt dell'Effect Hook è di chiamare la funzione effetto 
+dopo ogni singolo render. 
+Di seguito, abbiamo imparato che possiamo passare un array vuoto (dependecy array) come secondo argomento
+per lo useEffect() solo se vogliamo che il nostro effetto viene chiamato dopo il primo render del componente.
+
+Ora in questo esercizio, impareremo a usare il dependecy array per configurare con maggiore precisione quando vogliamo che il nostro effetto venga richiamato!
+
+Quando il nostro effetto è responsabile del recupero dei dati (Fetch Data),
+dobbiamo prestare maggiore attenzione a quando viene richiamato il nostro effetto.
+I viaggi di andata e ritorno non necessari tra i nostri componenti React e il server possono essere costosi in termini di:
+    - Elaborazione
+    - Prestazioni
+    - Utilizzo dei dati per gli utenti mobili
+    - Commissioni per i servizi API
+
+Quando i dati necessari al rendering del componente non cambiano, 
+possiamo passare un array di dipendenze vuoto in modo che i dati vengano recuperati solo dopo il primo render.
+
+Mentre quando riceviamo la risposta dal server, 
+possiamo usare uno state setter dello State Hook per memorizzare i dati della risposta del server nel nostro stato locale del componente per i rendering futuri.
+Usare lo state Hook e l'effect Hook insieme in questo modo è un pattern molto potente che salva 
+i nostri componenti dal recupero di nuovi dati non necessari dopo ogni render!
+
+Un array di dipendenze vuoto segnala all'Effect Hook che il nostro effetto non deve mai essere rieseguito, che non dipende da nulla.
+Se specifichiamo zero dipendenze (dependecy array vuoto) stiamo dicendo che il risultato dell'esecuzione di quell'effetto
+non cambierà e che è sufficiente richiamare il nostro effetto una sola volta.
+Mentre un dependecy array non vuoto segnala all'Effect Hook che esso può saltare la chiamata al nostro effetto dopo ogni re-render,
+a meno che il valore di una delle variabili nel nostro dependecy array viene cambiata.
+Se il valore di una dipendenza viene cambiato, allora l'effect hook chiamerà ancora il nostro effetto 
+
+Esempio: 
+useEffect(() => {
+    document.title = `You clicked ${count} times`;
+}, [count]); // Only re-run the effect if the value stored by count changes
+
+Spiegazione: 
+1. useEffect(()=>{...}): useEffect è l’hook che consente di eseguire effetti collaterali dopo il rendering del componente.
+    Per “effetto collaterale” si intende qualsiasi operazione che interagisce con l’esterno del componente: aggiornare il titolo della pagina, effettuare richieste HTTP, impostare timer, registrare listener, ecc.
+
+2. document.title = `You clicked ${count} times`;: qui stiamo cambiando il titolo della scheda del browser ogni volta che il valore di count viene aggiornato.
+    Ricodiamo che: 
+        React esegue l’effetto dopo ogni render del componente (non durante).
+
+        Tuttavia, come vedremo, questo comportamento può essere controllato tramite il dependency array.
+
+3. Il dependecy array: [count]: 
+    L'array di dipendenze indica a React quando deve rieseguire l'effetto 
+    Nel caso specifico: 
+        - L'effetto viene eseguito dopo il primo render (mount).
+
+        - Successivamente, viene rieseguito solo se il valore di count cambia rispetto al render precedente.
+
+        - Se count rimane invariato, l’effetto viene saltato.
+
+Questo consente di evitare lavoro inutile e di eseguire l’effetto solo quando serve.
+
+Nota: Perché il dependency array è importante
+
+    Il dependency array permette di:
+
+        - controllare la frequenza con cui l’effetto viene richiamato;
+        
+        - sincronizzare l’effetto con lo stato e le props;
+        
+        - prevenire logiche ridondanti e possibili problemi di prestazioni.
+*/
+
+// Importo un componente get dal file 'fetch.js' che simula la chiamata a un server
+import { get } from "../../../../mockBackend/fetch";
+
+const Forecast = () =>{
+    const [data, setData] = useState();
+    const [notes, setNotes] = useState({});
+    const [forecastType, setForecastType] = useState('/daily');
+
+    useEffect(() => {
+    alert('Requested data from server...');
+    // Come per i bottoni: in questo modo i due endpoint cambiano in modo dinamico e reattivo
+    get(forecastType).then((response) => {
+        alert('Response: ' + JSON.stringify(response,'',2));
+        // Ora per storare la response dei dati nel nostro stato aggiungo questa riga: 
+            // In questo modo quando i dati vengono recuperati vengono immagazzinati nello 
+            // stato del nostro componente tramite lo state setter 'setData'
+        setData(response.data);
+    /* Da notare come ogni volta che digitiamo qualcosa in un campo di input, il componente 
+    viene re-renderizzato per mostrare il nuovo valore di quel campo. 
+    Anche se non abbiamo bisogno di nuovi dati dal backend, 
+    il nostro componente recupera nuovi dati dopo ogni rendering!
+    Petr ovviare a questo bug usiamo una dependecy array: 
+    in questo modo ci assicuriamo che i dati vengono recuperati solo do il primo render del componente*/
+
+    
+    });
+    // Agguiungo la varibile di stato forecastType al dependecy array di get; in questo modo ogni volta che i due bottoni vengono premuti quindi cambia la variaible di stato 
+    // L'effetto viene richiamato e quindi si ha un altra chiamata di get al server
+},[forecastType]);
+
+    const handleChange = (index) => ({ target }) =>
+    setNotes((prev) => ({
+        ...prev,
+        [itemId]: target.value
+    }));
+
+    // Implemento condizione if per controllare se i dati hanno valori falsy
+    if (!data){
+        // Se cosi fosse restituisco un paragrafo con contenuto loading
+        return <p>Loading...</p>
+    }
+    return (
+    <div className='App'>
+        <h1>My Weather Planner</h1>
+        <div>
+        {/* Questi due bottoni servono per aiutare l'utente a scegliere tra
+        la pianificazione basata sulle previsioni meteorologiche giornaliere e quella basata sulle previsioni meteorologiche settimanali.
+        Tuttavia quando li clicchiamo nel browser non succede nulla: questo perché non cabiano lo stato del componente
+        visto che la variabile di stato 'forecastType' è settata di default sull'endpoint 'daily'. 
+        Per risolvere ciò utilizziamo la variabile di stato e non i due endpoint '/daily' e '/hourly', in questo modo decidiamo in modo reattivo 
+        quale endpoint il nostro effetto deve richiedere i dati
+        */}
+        {/* <button onClick={() => setForecastType('/daily')}>5-day</button> */}
+        {/* <button onClick={() => setForecastType('/hourly')}>Today</button> */}
+        <button onClick={() => setForecastType(forecastType)}>5-day</button>
+        <button onClick={() => setForecastType(forecastType)}>Today</button>
+        </div>
+        <table>
+        <thead>
+        <tr>
+            <th>Summary</th>
+            <th>Avg Temp</th>
+            <th>Precip</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+            {data.map((item, i) => (
+            <tr key={item.id}>
+                <td>{item.summary}</td>
+                <td> {item.temp.avg}°F</td>
+                <td>{item.precip}%</td>
+                <td>
+                <input
+                  value={notes[item.id] || ''}
+                  onChange={handleChange(item.id)}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/* 
+Regole degli Hooks
+Ci sono 2 regole principali da tenere a mente quando si usano gli Hooks: 
+!1. Chiamare gli Hook solo al livello superiore del componente 
+!2. Chiamare gli Hooks solo dalle funzioni React 
+Mentre ci esercitavamo con lo State Hook e l'Effect Hook, 
+abbiamo seguito queste regole con facilità, 
+ma è utile tenere a mente queste due regole quando si applica la nuova comprensione degli Hook e si inizia a utilizzare più Hook nelle applicazioni React.
+
+Quando React costruisce il Virtual DOM (https://www.codecademy.com/resources/docs/react/virtual-dom), 
+!la libreria chiama ripetutamente le funzioni che definiscono i nostri componenti mentre l'utente interagisce con l'interfaccia utente.
+React tiene traccia dei dati e delle funzioni che gestiamo con gli Hook in base al loro ordine nella definizione della componente.
+Per questo motivo, chiamiamo sempre i nostri Hooks al livello superiore; 
+    ?non chiamiamo mai gli hook all'interno di loop, condizioni o funzioni nidificate.
+
+Invece di confondere React con codice come questo:
+if (userName !== '') {
+  useEffect(() => {
+    localStorage.setItem('savedUserName', userName);
+  });
+}
+
+Possiamo raggiungere lo stesso obiettivo richiamando costantemente il nostro Hook ogni volta:
+useEffect(() => {
+  if (userName !== '') {
+    localStorage.setItem('savedUserName', userName);
+  }
+});
+
+
+!In secondo luogo, Hooks può essere utilizzato solo nelle funzioni React.
+Abbiamo lavorato con useState() e useEffect() nei componenti funzionali, e questo è l'uso più comune.
+L'unico altro posto in cui è possibile utilizzare gli hook è all'interno degli hook personalizzati.
+Gli hooks personalizzati(Custom Hook: https://react.dev/learn/reusing-logic-with-custom-hooks#custom-hooks-sharing-logic-between-components)
+sono incredibilmente utili per organizzare e riutilizzare la logica stateful tra i componenti delle funzioni.
+*/
+
+
+export {Counter, Count, Timer, Forecast}

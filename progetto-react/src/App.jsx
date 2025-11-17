@@ -28,7 +28,7 @@ import Termostato from './components/Esercizi Agosto/Termostato.jsx';
 import CampoRicerca from './components/Esercizi Agosto/CampoRicerca.jsx';
 import MessaggioSegreto from './components/Esercizi Agosto/MessaggioSegreto.jsx';
 import AppFunction from './components/codecademy/Review degli hooks/AppFunction.jsx'
-import { Count, Counter, Timer } from './components/codecademy/spiegazioneHooks/Hook/useEffect.jsx'
+import { Count, Counter, Forecast, Timer } from './components/codecademy/spiegazioneHooks/Hook/useEffect.jsx'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -106,6 +106,7 @@ function App() {
         <Count />
 
         <Timer />
+        <Forecast />
       </div>
       
     </>

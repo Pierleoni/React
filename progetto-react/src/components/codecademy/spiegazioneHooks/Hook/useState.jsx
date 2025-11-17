@@ -418,8 +418,8 @@ Nota bene:
     Avremmo potuto scrivere anche:
         setCount(count + 1)
     e il codice funzionerebbe comunque.
-    Tuttavia, è **buona prassi** usare la callback function, soprattutto quando il nuovo stato
-    dipende dal precedente.
+    !Tuttavia, è **buona prassi** usare la callback function, soprattutto quando il nuovo stato
+    !dipende dal precedente.
 */
 
 
@@ -515,8 +515,8 @@ export default function PersonalPizza() {
 
 Nell'esempio sopra stiamo utilizzando due array:
 
-1️⃣ **options** → contiene i nomi di tutti i condimenti disponibili.  
-2️⃣ **selected** → rappresenta i condimenti selezionati per la pizza personalizzata.
+?1️⃣ **options** → contiene i nomi di tutti i condimenti disponibili.  
+?2️⃣ **selected** → rappresenta i condimenti selezionati per la pizza personalizzata.
 
 L’array `options` contiene dati **statici**, cioè che non cambiano.  
 È buona pratica definire modelli di dati statici al di fuori della function component, 
@@ -644,7 +644,7 @@ const GroceryCart = () => {
 
 Gli oggetti negli stati
 =======================
-Inoltre possiamo usare gli stati con gli oggetti.
+!Inoltre possiamo usare gli stati con gli oggetti.
 Quando lavoriamo con un set di variabili correlate, è molto utile raggruparle dentro un oggetto.
 Ad esempio: 
 export default const Login = ()=> {
@@ -676,10 +676,14 @@ export default const Login = ()=> {
 }
 
 Possiamo notare alcune cose: 
-1. Usiamo un state setter callback function per aggiornare uno stato in base al valore corrente.
-2. La sintassi dello spread è la stessa per gli oggetti come per gli array: "{ ...oldObject, newKey: newValue }"
-3. Riutilizziamo il nostro gestore eventi su più input utilizzando l'attributo name del tag di input per identificare da quale input proviene l'evento di modifica.
-Ancora una volta, quando aggiorniamo lo stato con il state setter (in questo caos setFormState()) dentro un componente,
+!1. Usiamo un state setter callback function per aggiornare uno stato in base 
+    !al valore corrente.
+!2. La sintassi dello spread è la stessa per gli oggetti come per gli array: "{ ...oldObject, newKey: newValue }"
+!3. Riutilizziamo il nostro gestore eventi su più input 
+    !utilizzando l'attributo name del tag di input per identificare da quale input proviene l'evento di modifica.
+
+
+Ancora una volta, quando aggiorniamo lo stato con il state setter (in questo caso 'setFormState()') dentro un componente,
 non modifichiamo lo stesso oggetto.
 Quando impostiamo il valore successivo di uno stato, dobbiamo copiare i valori dall'oggetto precedente. 
 Fortunatamente, la sintassi spread rende questa operazione semplicissima!
@@ -692,7 +696,9 @@ quindi utilizziamo nuovamente la destrutturazione degli oggetti per estrarre le 
 All'interno della nostra funzione di callback del setter di stato, racchiudiamo le parentesi graffe tra parentesi come segue:
 setFormState((prev) => ({ ...prev }))
 Questo indica a JavaScript che le nostre parentesi graffe si riferiscono a un nuovo oggetto da restituire. 
-Utilizziamo ..., lo spread operator, per compilare i campi corrispondenti dal nostro stato precedente. 
+Utilizziamo '...': 
+    !- lo spread operator, 
+        !per compilare i campi corrispondenti dal nostro stato precedente. 
 Infine, sovrascriviamo la chiave appropriata con il suo valore aggiornato.
 
 Hai notato le parentesi quadre attorno al nome? Questo nome di proprietà calcolato (https://eloquentcode.com/computed-property-names-in-javascript) 
@@ -713,14 +719,14 @@ const EditProfile =()=>{
     // Estraggo "name" e "value" dall’elemento target.
         // - name: identifica la chiave dell’oggetto da aggiornare nello stato.
         // - value: rappresenta il valore attuale del campo di input.
-    
+    // Primo metodo: prendo inzializzo 'name' e 'value' che in cui salvo l'object event
     // const name = target.name;
     
     // const value = target.value;
 
     // Metodo alternativo: tramite la destrutturizzazione prendo inzializzo 'name' e 'value' che in cui salvo l'object event  
     const {name, value} = target; 
-
+    
     // Aggiorno lo stato utilizzando le variabili "name" e "value".
         // Senza lo spread operator, ogni aggiornamento sostituirebbe completamente lo stato precedente,
         // causando la perdita dei valori già inseriti in altri campi.
